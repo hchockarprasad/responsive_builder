@@ -2,14 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import 'device_width.dart' if (dart.library.js) 'device_width_web.dart'
-    as width;
+import 'device_width.dart' if (dart.library.js_interop) 'device_width_web.dart' as width;
 
 /// Returns the [DeviceScreenType] that the application is currently running on
-DeviceScreenType getDeviceType(
-  Size size, [
-  ScreenBreakpoints? breakpoint,
-]) {
+DeviceScreenType getDeviceType(Size size, [ScreenBreakpoints? breakpoint]) {
   double deviceWidth = width.deviceWidth(size);
 
   // Replaces the defaults with the user defined definitions
@@ -44,11 +40,7 @@ DeviceScreenType getDeviceType(
 }
 
 /// Returns the [RefindedSize] for each device that the application is currently running on
-RefinedSize getRefinedSize(
-  Size size, {
-  RefinedBreakpoints? refinedBreakpoint,
-  bool isWebOrDesktop = kIsWeb,
-}) {
+RefinedSize getRefinedSize(Size size, {RefinedBreakpoints? refinedBreakpoint, bool isWebOrDesktop = kIsWeb}) {
   DeviceScreenType deviceScreenType = getDeviceType(size);
   double deviceWidth = size.shortestSide;
 
@@ -108,55 +100,45 @@ RefinedSize getRefinedSize(
 
     // Desktop
     if (deviceScreenType == DeviceScreenType.desktop) {
-      if (deviceWidth >=
-          ResponsiveSizingConfig
-              .instance.refinedBreakpoints.desktopExtraLarge) {
+      if (deviceWidth >= ResponsiveSizingConfig.instance.refinedBreakpoints.desktopExtraLarge) {
         return RefinedSize.extraLarge;
       }
 
-      if (deviceWidth >=
-          ResponsiveSizingConfig.instance.refinedBreakpoints.desktopLarge) {
+      if (deviceWidth >= ResponsiveSizingConfig.instance.refinedBreakpoints.desktopLarge) {
         return RefinedSize.large;
       }
 
-      if (deviceWidth >=
-          ResponsiveSizingConfig.instance.refinedBreakpoints.desktopNormal) {
+      if (deviceWidth >= ResponsiveSizingConfig.instance.refinedBreakpoints.desktopNormal) {
         return RefinedSize.normal;
       }
     }
 
     // Tablet
     if (deviceScreenType == DeviceScreenType.tablet) {
-      if (deviceWidth >=
-          ResponsiveSizingConfig.instance.refinedBreakpoints.tabletExtraLarge) {
+      if (deviceWidth >= ResponsiveSizingConfig.instance.refinedBreakpoints.tabletExtraLarge) {
         return RefinedSize.extraLarge;
       }
 
-      if (deviceWidth >=
-          ResponsiveSizingConfig.instance.refinedBreakpoints.tabletLarge) {
+      if (deviceWidth >= ResponsiveSizingConfig.instance.refinedBreakpoints.tabletLarge) {
         return RefinedSize.large;
       }
 
-      if (deviceWidth >=
-          ResponsiveSizingConfig.instance.refinedBreakpoints.tabletNormal) {
+      if (deviceWidth >= ResponsiveSizingConfig.instance.refinedBreakpoints.tabletNormal) {
         return RefinedSize.normal;
       }
     }
 
     // Mobile
     if (deviceScreenType == DeviceScreenType.mobile) {
-      if (deviceWidth >=
-          ResponsiveSizingConfig.instance.refinedBreakpoints.mobileExtraLarge) {
+      if (deviceWidth >= ResponsiveSizingConfig.instance.refinedBreakpoints.mobileExtraLarge) {
         return RefinedSize.extraLarge;
       }
 
-      if (deviceWidth >=
-          ResponsiveSizingConfig.instance.refinedBreakpoints.mobileLarge) {
+      if (deviceWidth >= ResponsiveSizingConfig.instance.refinedBreakpoints.mobileLarge) {
         return RefinedSize.large;
       }
 
-      if (deviceWidth >=
-          ResponsiveSizingConfig.instance.refinedBreakpoints.mobileNormal) {
+      if (deviceWidth >= ResponsiveSizingConfig.instance.refinedBreakpoints.mobileNormal) {
         return RefinedSize.normal;
       }
     }
@@ -166,13 +148,7 @@ RefinedSize getRefinedSize(
 }
 
 /// Will return one of the values passed in for the device it's running on
-T getValueForScreenType<T>({
-  required BuildContext context,
-  required T mobile,
-  T? tablet,
-  T? desktop,
-  T? watch,
-}) {
+T getValueForScreenType<T>({required BuildContext context, required T mobile, T? tablet, T? desktop, T? watch}) {
   var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
   // If we're at desktop size
   if (deviceScreenType == DeviceScreenType.desktop) {
@@ -201,13 +177,7 @@ T getValueForScreenType<T>({
 }
 
 /// Will return one of the values passed in for the refined size
-T getValueForRefinedSize<T>({
-  required BuildContext context,
-  required T normal,
-  T? large,
-  T? extraLarge,
-  T? small,
-}) {
+T getValueForRefinedSize<T>({required BuildContext context, required T normal, T? large, T? extraLarge, T? small}) {
   var refinedSize = getRefinedSize(MediaQuery.of(context).size);
   // If we're at extra large size
   if (refinedSize == RefinedSize.extraLarge) {
@@ -240,19 +210,7 @@ T getValueForRefinedSize<T>({
 
 class ScreenTypeValueBuilder<T> {
   @Deprecated('Use better named global function getValueForScreenType')
-  T getValueForType({
-    required BuildContext context,
-    required T mobile,
-    T? tablet,
-    T? desktop,
-    T? watch,
-  }) {
-    return getValueForScreenType(
-      context: context,
-      mobile: mobile,
-      tablet: tablet,
-      desktop: desktop,
-      watch: watch,
-    );
+  T getValueForType({required BuildContext context, required T mobile, T? tablet, T? desktop, T? watch}) {
+    return getValueForScreenType(context: context, mobile: mobile, tablet: tablet, desktop: desktop, watch: watch);
   }
 }
